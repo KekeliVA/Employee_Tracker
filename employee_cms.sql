@@ -5,8 +5,8 @@ USE employee_data_db;
 
 CREATE TABLE employee (
   id INT NOT NULL AUTO_INCREMENT,
-  firstName VARCHAR(250),
-  lastName VARCHAR(250),
+  firstName VARCHAR(30),
+  lastName VARCHAR(30),
   role_id INT NOT NULL,
   manager_id INT,
   PRIMARY KEY (id),
@@ -16,13 +16,13 @@ CREATE TABLE employee (
 
 CREATE TABLE department(
   id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(250),
+  name VARCHAR(30),
   PRIMARY KEY (id)
 );
 
 CREATE TABLE role (
   id INT NOT NULL AUTO_INCREMENT,
-  title VARCHAR(250) NOT NULL, 
+  title VARCHAR(30) NOT NULL, 
   salary INT NOT NULL,
   department_id INT NOT NULL,
   PRIMARY KEY (id),
