@@ -69,7 +69,14 @@ function addDepartment() {
         return "Enter a valid department name";
       }
     }
-  ])
+  ]).then(answers => {
+    // still need to create orm
+    // will these methods break if they don't receive all arguments?
+    // like will my queries just not work because they're expecting 3 arguments
+    // instead of just one in some cases
+    // I guess not because each orm method will correspond to what the table expects
+    orm.insertInto(answers.department);
+  })
 }
 
 /**@todo
