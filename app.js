@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-const AddEntriesFromIterable = require("es-abstract/2019/AddEntriesFromIterable");
+
 
 // First we need to call a function in charge of starting the general CLI
 
@@ -42,7 +42,7 @@ function createCMS()  {
       case "Update Roles":
         updateEmployeeRoles();
         break;
-      default:
+      case "N/A":
         return;
 
     }
@@ -55,23 +55,44 @@ createCMS();
  * create addDepartment();
  */
 
+function addDepartment() {
+  inquirer
+  .prompt([
+    {
+      type: "input",
+      message: "What is the department name",
+      name: "department",
+      validate: answer => {
+        if (answer !== "") {
+          return true;
+        }
+        return "Enter a valid department name";
+      }
+    }
+  ])
+}
+
 /**@todo
- * create addDepartment();
+ * create addEmployee();
  */
 
 /**@todo
- * create addDepartment();
+ * create addRole();
  */
 
 /**@todo
- * create addDepartment();
+ * create updateEmployeeRole();
+ */
+
+/**@todo
+ * create viewDepartments();
  */
 
 
 /**@todo
- * create viewInfo();
+ * create viewEmployees();
  */
 
 /**@todo
- * create updateRoles();
+ * create viewRoles();
  */
