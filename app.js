@@ -1,4 +1,5 @@
 const inquirer = require("inquirer");
+const orm = require("./config/orm");
 
 
 // First we need to call a function in charge of starting the general CLI

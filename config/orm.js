@@ -35,3 +35,7 @@ const orm = {
    * method to add to update employee roles 
    */
 }
+
+
+// export the orm
+module.exports = orm;
