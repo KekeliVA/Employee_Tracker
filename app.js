@@ -90,17 +90,45 @@ function addEmployee() {
   .prompt([
     {
       type: "input",
-      message: "What is the name of the employee?",
-      name: "employee",
+      message: "What is the first name of the employee?",
+      name: "employeeFirstName",
       validate: answer => {
         if (answer !== "") {
           return true;
         }
-        return "Enter a valid employee name";
+        return "Enter a valid employee name.";
       }
+    },
+    {
+      type: "input",
+      message: "What is the last name of the employee?",
+      name: "employeeLastName",
+      validate: answer => {
+        if (answer !== "") {
+          return true;
+        }
+        return "Enter a valid employee name.";
+      }
+    },
+    {
+      type: "list",
+      message: "What is the role of the employee?",
+      name: "employeeRoleID",
+      choices: ["Employee","Manager" ],
+      validate: answer => {
+        if (answer !== "") {
+          return true;
+        }
+        return "Enter a valid role."
+      }
+    },
+    {
+      type: "input",
+      message: "Who is this employee's manager?",
+      name: "employeeManager"
     }
-  ]).then(answers => {
-    Orm.employeeInsert(answer.employee);
+  ]).then(answer => {
+    Orm.employeeInsert(answer.employeeFirstName);
     createCMS();
   })
 }
