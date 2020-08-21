@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
-const orm = require("./config/orm");
+const Orm = require("./config/orm");
+
 
 
 // First we need to call a function in charge of starting the general CLI
@@ -61,7 +62,7 @@ function addDepartment() {
   .prompt([
     {
       type: "input",
-      message: "What is the department name",
+      message: "What is the department name?",
       name: "department",
       validate: answer => {
         if (answer !== "") {
@@ -76,13 +77,33 @@ function addDepartment() {
     // like will my queries just not work because they're expecting 3 arguments
     // instead of just one in some cases
     // I guess not because each orm method will correspond to what the table expects
-    orm.insertInto(answers.department);
+    Orm.departmentInsert(answers.department);
+    createCMS();
   })
 }
 
 /**@todo
  * create addEmployee();
  */
+function addEmployee() {
+  inquirer
+  .prompt([
+    {
+      type: "input",
+      message: "What is the name of the employee?",
+      name: "employee",
+      validate: answer => {
+        if (answer !== "") {
+          return true;
+        }
+        return "Enter a valid employee name";
+      }
+    }
+  ]).then(answers => {
+    Orm.employeeInsert(answer.employee);
+    createCMS();
+  })
+}
 
 /**@todo
  * create addRole();
