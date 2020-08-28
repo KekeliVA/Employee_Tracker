@@ -27,6 +27,7 @@ let orm = {
   },
 
   addDepartment: function(departmentName) {
+    console.log(departmentName);
     let queryString = `INSERT INTO department (departmentName)` +
     `VALUES ${departmentName}`;
     connection.query((queryString, (err, result) => {
@@ -36,6 +37,7 @@ let orm = {
   },
 
   addRole: function(roleTitle, roleSalary, departmentId) {
+    console.log(roleTitle, roleSalary, departmentId);
     let queryString = "INSERT INTO role (title, salary, department_id)" +
     "VALUES(" + roleTitle + roleSalary + departmentId + ")";
     connection.query(queryString, (err, result) => {
