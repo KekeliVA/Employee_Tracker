@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const orm = require("./config/orm");
+const { viewEmployees } = require("./config/orm");
 // const { viewDepartments } = require("./config/orm");
 
 
@@ -43,7 +44,7 @@ function createCMS()  {
         orm.viewRoles();
         break;
       case "Update Roles":
-        updateEmployeeRoles();
+        updateEmployeeRole();
         break;
       case "N/A":
         return;
@@ -76,13 +77,13 @@ function addDepartment() {
         return "Enter a valid department name";
       }
     }
-  ]).then(answers => {
+  ]).then(answer => {
     // still need to create orm
     // will these methods break if they don't receive all arguments?
     // like will my queries just not work because they're expecting 3 arguments
     // instead of just one in some cases
     // I guess not because each orm method will correspond to what the table expects
-    orm.addDepartment(answers.department);
+    orm.addDepartment(answer.department);
     createCMS();
   })
 }
@@ -135,8 +136,9 @@ function addEmployee() {
       name: "employeeManager"
     }
   ]).then(answer => {
-    Orm.employeeInsert(answer.employeeFirstName, answer.employeeLastName, 
+    orm.addEmployee(answer.employeeFirstName, answer.employeeLastName, 
       answer.employeeRoleID, answer.employeeManager);
+    orm.viewEmployees();
     createCMS();
   })
 }
@@ -170,5 +172,24 @@ function addRole() {
 /**@todo
  * create updateEmployeeRole();
  */
+
+ function updateEmployeeRole() {
+   inquirer
+   .prompt([
+     {
+       type: "input",
+       message: "Which employee's role would you like to update?",
+       name: "updateEmployee"
+     },
+     {
+       type: "input",
+       message: "What would you like to change their role ID to?",
+       name: "newEmployeeRoleID"
+     }
+   ]).then(answer => {
+     orm.updateEmployee(answer.updateEmployee, answer.newEmployeeRoleID);
+     createCMS();
+   })
+ }
 
 

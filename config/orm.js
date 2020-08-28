@@ -1,6 +1,12 @@
 let connection = require ("./connection");
 const { query } = require("express");
 
+class DB {
+  constructor(connection) {
+    this.connection = connection;
+  }
+}
+
 let orm = {
   viewDepartments: function() {
     let queryString = "SELECT * from department";
@@ -28,22 +34,43 @@ let orm = {
 
   addDepartment: function(departmentName) {
     console.log(departmentName);
-    let queryString = "INSERT INTO department (name) (VALUES)(?)";
+    let queryString = "INSERT INTO department (departmentName) VALUES(?)";
     console.log(queryString);
-    connection.query(queryString, [departmentName], (err, result) => {
+    connection.query(queryString, departmentName, (err, result) => {
+      if (err) throw err;
+      console.log(result);
+    })
+
+    },
+
+  addRole: function(roleTitle, roleSalary, departmentId) {
+    console.log(roleTitle, roleSalary, departmentId);
+    let queryString = "INSERT INTO role (title, salary, department_id) VALUES(?,?,?)";
+    console.log(queryString);
+    connection.query(queryString, [roleTitle, roleSalary, departmentId], (err, result) => {
       if (err) throw err;
       console.log(result);
     })
   },
 
-  addRole: function(roleTitle, roleSalary, departmentId) {
-    console.log(roleTitle, roleSalary, departmentId);
-    let queryString = "INSERT INTO role (title, salary, department_id)" +
-    "VALUES(" + roleTitle + roleSalary + departmentId + ")";
-    connection.query(queryString, (err, result) => {
+  addEmployee: function(firstName, lastName, role_id, manager_id) {
+    console.log(firstName, lastName, role_id, manager_id);
+    let queryString = "INSERT INTO employee (firstName, lastName, role_id, manager_id) VALUES(?,?,?,?)";
+    console.log(queryString);
+    connection.query(queryString, [firstName, lastName, role_id, manager_id], (err, result) => {
       if (err) throw err;
       console.log(result);
-    });
+    })
+  },
+
+  updateEmployee: function(employeeID, newEmployeeRoleID){
+    console.log(employeeID + "...." + newEmployeeRoleID);
+    let queryString = "UPDATE employee SET role_id = ? WHERE id = ?";
+    console.log(queryString);
+    connection.query(queryString, [newEmployeeRoleID, employeeID], (err, result) => {
+      if (err) throw err;
+      console.log(result);
+    })
   }
 
 
