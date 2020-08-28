@@ -28,12 +28,12 @@ let orm = {
 
   addDepartment: function(departmentName) {
     console.log(departmentName);
-    let queryString = `INSERT INTO department (departmentName)` +
-    `VALUES ${departmentName}`;
-    connection.query((queryString, (err, result) => {
+    let queryString = "INSERT INTO department (name) (VALUES)(?)";
+    console.log(queryString);
+    connection.query(queryString, [departmentName], (err, result) => {
       if (err) throw err;
       console.log(result);
-    }))
+    })
   },
 
   addRole: function(roleTitle, roleSalary, departmentId) {

@@ -1,4 +1,4 @@
-USE employee_data_db
+USE employee_tracker_v2
 
 INSERT INTO department(departmentaName)
 VALUES ("production"), ("engineering"), ("studio_directing"), ("management");
