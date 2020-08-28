@@ -1,51 +1,50 @@
-const connection = require("./connection.js");
+let connection = require ("./connection");
+const { query } = require("express");
+
+let orm = {
+  viewDepartments: function() {
+    let queryString = "SELECT * from department";
+    connection.query(queryString, (err, result) => {
+      if (err) throw err;
+      console.log(result);
+    });
+  },
+
+  viewEmployees: function() {
+    let queryString = "SELECT * FROM employee";
+    connection.query(queryString, (err, result) => {
+      if (err) throw err;
+      console.log(result);
+    });
+  },
+
+  viewRoles: function() {
+    let queryString = "SELECT * FROM role";
+    connection.query(queryString, (err, result) => {
+      if (err) throw err;
+      console.log(result);
+    });
+  },
+
+  addDepartment: function(departmentName) {
+    let queryString = `INSERT INTO department (departmentName)` +
+    `VALUES ${departmentName}`;
+    connection.query((queryString, (err, result) => {
+      if (err) throw err;
+      console.log(result);
+    }))
+  },
+
+  addRole: function(roleTitle, roleSalary, departmentId) {
+    let queryString = "INSERT INTO role (title, salary, department_id)" +
+    "VALUES(" + roleTitle + roleSalary + departmentId + ")";
+    connection.query(queryString, (err, result) => {
+      if (err) throw err;
+      console.log(result);
+    });
+  }
 
 
-class Orm {
-  constructor(connection) {
-    this.connection = connection;
-    
-  }
-  /**@todo
-   * method to add to departments table
-   */
-  departmentInsert(departmentName) {
-    console.log(departmentName);
-     return this.connection.query("INSERT INTO department SET name = ?", departmentName);
-     
-  }
-   /**@todo
-   * method to add to employee table
-   */
-  employeeInsert(employeeName) {
-    console.log(employeeName);
-    return this.connection.query("INSERT INTO employee SET name = ?", employeeName);
-  }
-  
-   /**@todo
-   * method to add to roles table
-   */
-  
-   /**@todo
-   * method to view departments table
-   */
-  
-   /**@todo
-   * method to view employees table
-   */
-  
-   /**@todo
-   * method to view roles table
-   */
-  
-   /**@todo
-   * method to add to update employee roles 
-   */
 }
 
-
-// export the orm (because it takes connection as constructor)
-module.exports = new Orm(connection);
-
-// do another sql statement with another column to test this syntax error
-// use promisify for
+module.exports = orm;

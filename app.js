@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
-const Orm = require("./config/orm");
+const orm = require("./config/orm");
+// const { viewDepartments } = require("./config/orm");
 
 
 
@@ -33,13 +34,13 @@ function createCMS()  {
         addRole();
         break;
       case "View Departments":
-        viewDepartments();
+        orm.viewDepartments();
         break;
       case "View Employees":
-        viewEmployees();
+        orm.viewEmployees();
         break;
       case "View Roles":
-        viewRoles();
+        orm.viewRoles();
         break;
       case "Update Roles":
         updateEmployeeRoles();
@@ -55,6 +56,10 @@ createCMS();
 
 /**@todo
  * create addDepartment();
+ * might have to change these function names around. currently the inquirer
+ * functions match mthe names of my functions that are actually handling
+ * data and I think that is, unsanitary? but shouldn't it not matter because
+ * I'm accessing the orm object?
  */
 
 function addDepartment() {
@@ -77,14 +82,12 @@ function addDepartment() {
     // like will my queries just not work because they're expecting 3 arguments
     // instead of just one in some cases
     // I guess not because each orm method will correspond to what the table expects
-    Orm.departmentInsert(answers.department);
+    orm.addDepartment(answers.department);
     createCMS();
   })
 }
 
-/**@todo
- * create addEmployee();
- */
+// function to add an employee to the db, not sending data though
 function addEmployee() {
   inquirer
   .prompt([
@@ -111,10 +114,14 @@ function addEmployee() {
       }
     },
     {
+      // maybe I should use the expandable list type 
+      // type: "expand"
+      // {key: '1' value: employee},
+      // https://www.digitalocean.com/community/tutorials/nodejs-interactive-command-line-prompts
       type: "list",
       message: "What is the role of the employee?",
       name: "employeeRoleID",
-      choices: ["Employee","Manager" ],
+      choices: ["1","2"],
       validate: answer => {
         if (answer !== "") {
           return true;
@@ -124,32 +131,44 @@ function addEmployee() {
     },
     {
       type: "input",
-      message: "Who is this employee's manager?",
+      message: "What is the ID of their manager?",
       name: "employeeManager"
     }
   ]).then(answer => {
-    Orm.employeeInsert(answer.employeeFirstName);
+    Orm.employeeInsert(answer.employeeFirstName, answer.employeeLastName, 
+      answer.employeeRoleID, answer.employeeManager);
+    createCMS();
+  })
+}
+
+// function to add a new role to the database, not breaking, but isn't sending 
+// data to mysql
+function addRole() {
+  inquirer
+  .prompt([
+    {
+      type: "input",
+      message: "What is the title of the role?",
+      name: "roleTitle"
+    },
+    {
+      type: "input",
+      message: "What is the salary of this role?",
+      name: "roleSalary"
+    },
+    {
+      type: "input",
+      message: "What is the ID of the department this role belongs to?",
+      name: "departmentId"
+    }
+  ]).then(answer => {
+    orm.addRole(answer.roleTitle, answer.roleSalary, answer.departmentId);
     createCMS();
   })
 }
 
 /**@todo
- * create addRole();
- */
-
-/**@todo
  * create updateEmployeeRole();
  */
 
-/**@todo
- * create viewDepartments();
- */
 
-
-/**@todo
- * create viewEmployees();
- */
-
-/**@todo
- * create viewRoles();
- */
